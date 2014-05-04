@@ -30,7 +30,6 @@ public class FlipTextViewAltActivity extends FlipTextViewActivity {
 
     flipView.setOnViewFlipListener(new FlipViewController.ViewFlipListener() {
 
-      @Override
       public void onViewFlipped(View view, int position) {
         Toast.makeText(view.getContext(), "Flipped to page " + position, Toast.LENGTH_SHORT).show();
       }

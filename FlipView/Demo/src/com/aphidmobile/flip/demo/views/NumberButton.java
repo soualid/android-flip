@@ -13,7 +13,6 @@ public class NumberButton extends Button {
     super(context, null, android.R.attr.buttonStyleInset);
     setNumber(n);
     setOnClickListener(new OnClickListener() {
-      @Override
       public void onClick(View v) {
         Toast.makeText(v.getContext(), "Clicked button " + number, Toast.LENGTH_SHORT).show();
       }

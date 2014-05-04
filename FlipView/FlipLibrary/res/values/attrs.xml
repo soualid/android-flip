@@ -2,6 +2,10 @@
 <resources>
 
 	<declare-styleable name="FlipViewController">
+		<attr name="spinePosition" format="enum">
+			<enum name="middle" value="0"/>
+			<enum name="left" value="1"/>
+		</attr>
 		<attr name="orientation" format="enum">
 			<enum name="vertical" value="0"/>
 			<enum name="horizontal" value="1"/>

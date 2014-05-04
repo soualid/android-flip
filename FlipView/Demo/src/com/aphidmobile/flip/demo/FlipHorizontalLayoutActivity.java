@@ -36,7 +36,7 @@ public class FlipHorizontalLayoutActivity extends Activity {
 
     setTitle(R.string.activity_title);
 
-    flipView = new FlipViewController(this, FlipViewController.HORIZONTAL);
+    flipView = new FlipViewController(this, FlipViewController.HORIZONTAL, FlipViewController.MIDDLE_SPINE);
 
     flipView.setAdapter(new TravelAdapter(this));
 

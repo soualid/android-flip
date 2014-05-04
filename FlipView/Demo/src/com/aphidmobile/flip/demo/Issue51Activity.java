@@ -63,22 +63,18 @@ public class Issue51Activity extends Activity {
       inflater = LayoutInflater.from(context);
     }
 
-    @Override
     public int getCount() {
       return 3;
     }
 
-    @Override
     public Object getItem(int position) {
       return position;
     }
 
-    @Override
     public long getItemId(int position) {
       return position;
     }
 
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       if (position == 0) {
         return inflater.inflate(R.layout.page1, null);

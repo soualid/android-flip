@@ -45,7 +45,6 @@ public class FlipDynamicAdapterActivity extends Activity {
     flipView.setAdapter(adapter);
 
     flipView.setOnViewFlipListener(new FlipViewController.ViewFlipListener() {
-      @Override
       public void onViewFlipped(View view, int position) {
         if (position == adapter.getCount() - 1) {//expand the data size on the last page 
           adapter.setRepeatCount(adapter.getRepeatCount() + 1);

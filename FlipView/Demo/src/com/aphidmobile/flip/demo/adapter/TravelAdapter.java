@@ -34,7 +34,6 @@ public class TravelAdapter extends BaseAdapter {
     travelData = new ArrayList<Travels.Data>(Travels.IMG_DESCRIPTIONS);
   }
 
-  @Override
   public int getCount() {
     return travelData.size() * repeatCount;
   }
@@ -47,17 +46,14 @@ public class TravelAdapter extends BaseAdapter {
     this.repeatCount = repeatCount;
   }
 
-  @Override
   public Object getItem(int position) {
     return position;
   }
 
-  @Override
   public long getItemId(int position) {
     return position;
   }
 
-  @Override
   public View getView(int position, View convertView, ViewGroup parent) {
     View layout = convertView;
     if (convertView == null) {
@@ -82,7 +78,6 @@ public class TravelAdapter extends BaseAdapter {
     UI
         .<Button>findViewById(layout, R.id.wikipedia)
         .setOnClickListener(new View.OnClickListener() {
-          @Override
           public void onClick(View v) {
             Intent intent = new Intent(
                 Intent.ACTION_VIEW,

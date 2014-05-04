@@ -35,7 +35,6 @@ public class FlipFragmentActivity extends FragmentActivity {
 
     Button button = UI.findViewById(this, R.id.toggle_button);
     button.setOnClickListener(new View.OnClickListener() {
-      @Override
       public void onClick(View v) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.flip_text_view_fragment);

@@ -61,11 +61,11 @@ public class FlipCards {
 
   private int lastPageIndex;
 
-  public FlipCards(FlipViewController controller, boolean orientationVertical) {
+  public FlipCards(FlipViewController controller, boolean orientationVertical, boolean leftSpine) {
     this.controller = controller;
 
-    frontCards = new ViewDualCards(orientationVertical);
-    backCards = new ViewDualCards(orientationVertical);
+    frontCards = new ViewDualCards(orientationVertical, leftSpine);
+    backCards = new ViewDualCards(orientationVertical, leftSpine);
     this.orientationVertical = orientationVertical;
   }
 

@@ -55,7 +55,7 @@ public class FlipWebViewActivity extends Activity {
     requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
     //flip horizontally may be the better choice as most web pages need scroll vertically
-    flipView = new FlipViewController(this, FlipViewController.HORIZONTAL);
+    flipView = new FlipViewController(this, FlipViewController.HORIZONTAL, FlipViewController.MIDDLE_SPINE);
 
     flipView.setAdapter(new MyBaseAdapter(this, flipView));
 
@@ -91,22 +91,18 @@ public class FlipWebViewActivity extends Activity {
       urls.add("http://www.google.com");
     }
 
-    @Override
     public int getCount() {
       return urls.size();
     }
 
-    @Override
     public Object getItem(int position) {
       return position;
     }
 
-    @Override
     public long getItemId(int position) {
       return position;
     }
 
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       WebView webView = new WebView(controller.getContext());
       webView.setWebViewClient(new WebViewClient() {

@@ -96,22 +96,18 @@ public class FlipAsyncContentActivity extends Activity {
           BitmapFactory.decodeResource(context.getResources(), android.R.drawable.dark_header);
     }
 
-    @Override
     public int getCount() {
       return Travels.IMG_DESCRIPTIONS.size();
     }
 
-    @Override
     public Object getItem(int position) {
       return position;
     }
 
-    @Override
     public long getItemId(int position) {
       return position;
     }
 
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       View layout = convertView;
       if (convertView == null) {
@@ -131,7 +127,6 @@ public class FlipAsyncContentActivity extends Activity {
       UI
           .<Button>findViewById(layout, R.id.wikipedia)
           .setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
               Intent intent = new Intent(
                   Intent.ACTION_VIEW,

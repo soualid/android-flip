@@ -47,6 +47,9 @@ public class FlipViewController extends AdapterView<Adapter> {
 
   public static final int VERTICAL = 0;
   public static final int HORIZONTAL = 1;
+  
+  public static final int MIDDLE_SPINE = 0;
+  public static final int LEFT_SPINE = 1;
 
   public static interface ViewFlipListener {
 
@@ -58,7 +61,6 @@ public class FlipViewController extends AdapterView<Adapter> {
   static final int MSG_SURFACE_CREATED = 1;
 
   private Handler handler = new Handler(new Handler.Callback() {
-    @Override
     public boolean handleMessage(Message msg) {
       if (msg.what == MSG_SURFACE_CREATED) {
         contentWidth = 0;
@@ -81,6 +83,9 @@ public class FlipViewController extends AdapterView<Adapter> {
 
   @ViewDebug.ExportedProperty
   private int flipOrientation;
+  
+  @ViewDebug.ExportedProperty
+  private int spinePosition;
 
   private volatile boolean inFlipAnimation = false;
 
@@ -109,12 +114,12 @@ public class FlipViewController extends AdapterView<Adapter> {
   private Bitmap.Config animationBitmapFormat = Bitmap.Config.ARGB_8888;
 
   public FlipViewController(Context context) {
-    this(context, VERTICAL);
+    this(context, VERTICAL, MIDDLE_SPINE);
   }
 
-  public FlipViewController(Context context, int flipOrientation) {
+  public FlipViewController(Context context, int flipOrientation, int spinePosition) {
     super(context);
-    init(context, flipOrientation);
+    init(context, flipOrientation, spinePosition);
   }
 
   /**
@@ -124,6 +129,7 @@ public class FlipViewController extends AdapterView<Adapter> {
     super(context, attrs, defStyle);
 
     int orientation = VERTICAL;
+    int spinePosition = MIDDLE_SPINE;
 
     TypedArray
         a =
@@ -133,6 +139,11 @@ public class FlipViewController extends AdapterView<Adapter> {
       int value = a.getInteger(R.styleable.FlipViewController_orientation, VERTICAL);
       if (value == HORIZONTAL) {
         orientation = HORIZONTAL;
+      }
+      
+      value = a.getInteger(R.styleable.FlipViewController_spinePosition, MIDDLE_SPINE);
+      if (value == LEFT_SPINE) {
+    	spinePosition = LEFT_SPINE;
       }
 
       value = a.getInteger(R.styleable.FlipViewController_animationBitmapFormat, 0);
@@ -147,7 +158,7 @@ public class FlipViewController extends AdapterView<Adapter> {
       a.recycle();
     }
 
-    init(context, orientation);
+    init(context, orientation, spinePosition);
   }
 
   /**
@@ -157,10 +168,11 @@ public class FlipViewController extends AdapterView<Adapter> {
     this(context, attrs, 0);
   }
 
-  private void init(Context context, int orientation) {
+  private void init(Context context, int orientation, int spinePosition) {
     ViewConfiguration configuration = ViewConfiguration.get(getContext());
     touchSlop = configuration.getScaledTouchSlop();
     this.flipOrientation = orientation;
+    this.spinePosition = spinePosition;
     setupSurfaceView(context);
   }
 
@@ -418,7 +430,7 @@ public class FlipViewController extends AdapterView<Adapter> {
   private void setupSurfaceView(Context context) {
     surfaceView = new GLSurfaceView(getContext());
 
-    cards = new FlipCards(this, flipOrientation == VERTICAL);
+    cards = new FlipCards(this, flipOrientation == VERTICAL, spinePosition == LEFT_SPINE);
     renderer = new FlipRenderer(this, cards);
 
     surfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
@@ -497,7 +509,6 @@ public class FlipViewController extends AdapterView<Adapter> {
 
   void postFlippedToView(final int indexInAdapter) {
     handler.post(new Runnable() {
-      @Override
       public void run() {
         flippedToView(indexInAdapter, true);
       }
@@ -564,7 +575,6 @@ public class FlipViewController extends AdapterView<Adapter> {
   void postHideFlipAnimation() {
     if (inFlipAnimation) {
       handler.post(new Runnable() {
-        @Override
         public void run() {
           hideFlipAnimation();
         }

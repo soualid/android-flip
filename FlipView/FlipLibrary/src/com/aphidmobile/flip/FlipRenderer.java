@@ -57,7 +57,6 @@ public class FlipRenderer implements GLSurfaceView.Renderer {
     this.cards = cards;
   }
 
-  @Override
   public void onSurfaceCreated(GL10 gl, EGLConfig config) {
     gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl.glShadeModel(GL_SMOOTH);
@@ -78,7 +77,6 @@ public class FlipRenderer implements GLSurfaceView.Renderer {
 
   public static float[] light0Position = {0, 0, 100f, 0f};
 
-  @Override
   public void onSurfaceChanged(GL10 gl, int width, int height) {
     gl.glViewport(0, 0, width, height);
 
@@ -114,7 +112,6 @@ public class FlipRenderer implements GLSurfaceView.Renderer {
     }
   }
 
-  @Override
   public void onDrawFrame(GL10 gl) {
     if (cards.isVisible() && cards.isFirstDrawFinished())
       gl.glClearColor(1f, 1f, 1f, 1f);
