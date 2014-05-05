@@ -60,6 +60,7 @@ public class FlipCards {
   private int maxIndex = 0;
 
   private int lastPageIndex;
+  private boolean leftSpine;
 
   public FlipCards(FlipViewController controller, boolean orientationVertical, boolean leftSpine) {
     this.controller = controller;
@@ -67,6 +68,7 @@ public class FlipCards {
     frontCards = new ViewDualCards(orientationVertical, leftSpine);
     backCards = new ViewDualCards(orientationVertical, leftSpine);
     this.orientationVertical = orientationVertical;
+    this.leftSpine = leftSpine;
   }
 
   public boolean isVisible() {
@@ -240,7 +242,7 @@ public class FlipCards {
 
       //no need to draw backCards here
     } else {
-      if (angle < 90) { //render front view over back view
+      if (angle < 90 || leftSpine) { //render front view over back view
         frontCards.getTopCard().setAngle(0);
         frontCards.getTopCard().draw(gl);
 
@@ -299,10 +301,12 @@ public class FlipCards {
           controller.showFlipAnimation();
 
           float angleDelta;
+          float max = 180;
+          if (forward && leftSpine) max = 90;
           if (orientationVertical) {
-            angleDelta = 180 * delta / controller.getContentHeight() * MOVEMENT_RATE;
+            angleDelta = max * delta / controller.getContentHeight() * MOVEMENT_RATE;
           } else {
-            angleDelta = 180 * delta / controller.getContentWidth() * MOVEMENT_RATE;
+            angleDelta = max * delta / controller.getContentWidth() * MOVEMENT_RATE;
           }
 
           if (Math.abs(angleDelta)
