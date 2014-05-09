@@ -34,6 +34,7 @@ public class GrabIt {
     if (view != null && width > 0 && height > 0) {
       Bitmap bitmap = Bitmap.createBitmap(width, height, config);
       Canvas canvas = new Canvas(bitmap);
+      
       view.draw(canvas);
 
       //canvas.drawColor(Color.RED, PorterDuff.Mode.DARKEN); //NOTES: debug option

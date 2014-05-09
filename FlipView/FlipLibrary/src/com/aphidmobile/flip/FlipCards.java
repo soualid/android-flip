@@ -17,6 +17,11 @@ limitations under the License.
 
 package com.aphidmobile.flip;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import junit.framework.Assert;
+import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -24,12 +29,9 @@ import com.aphidmobile.utils.AphidLog;
 import com.aphidmobile.utils.TextureUtils;
 import com.aphidmobile.utils.UI;
 
-import junit.framework.Assert;
-
-import javax.microedition.khronos.opengles.GL10;
-
 public class FlipCards {
 
+	private boolean flipAccepted = false;
   private static final float ACCELERATION = 0.65f;
   private static final float MOVEMENT_RATE = 1.5f;
   private static final int MAX_TIP_ANGLE = 60;
@@ -277,13 +279,18 @@ public class FlipCards {
   }
 
   public synchronized boolean handleTouchEvent(MotionEvent event, boolean isOnTouchEvent) {
+		
     switch (event.getAction()) {
       case MotionEvent.ACTION_DOWN:
         // remember page we started on...
+      	flipAccepted = event.getX() + 100 > controller.getWidth() || event.getX() - 100 < 0;
         lastPageIndex = getPageIndexFromAngle(accumulatedAngle);
         lastPosition = orientationVertical ? event.getY() : event.getX();
         return isOnTouchEvent;
       case MotionEvent.ACTION_MOVE:
+      	Log.d("FlipCards", controller.getWidth() + " // " + event.getX());
+      	Log.d("FlipCards", "flipAccepted: " + flipAccepted);
+      	if (!flipAccepted) return false;
         float
             delta =
             orientationVertical ? (lastPosition - event.getY()) : (lastPosition - event.getX());
@@ -297,7 +304,6 @@ public class FlipCards {
           {
             forward = delta > 0;
           }
-
           controller.showFlipAnimation();
 
           float angleDelta;
@@ -405,4 +411,16 @@ public class FlipCards {
   private float getDisplayAngle() {
     return accumulatedAngle % 180;
   }
+
+	public void setOrientationVertical(boolean orientationVertical) {
+		this.orientationVertical = orientationVertical;
+		frontCards.setOrientationVertical(orientationVertical);
+		backCards.setOrientationVertical(orientationVertical);
+	}
+
+	public void setLeftSpine(boolean leftSpine) {
+		this.leftSpine = leftSpine;
+		frontCards.setLeftSpine(leftSpine);
+		backCards.setLeftSpine(leftSpine);
+	}
 }

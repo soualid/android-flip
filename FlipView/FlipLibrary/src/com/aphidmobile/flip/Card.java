@@ -145,7 +145,7 @@ public class Card {
     if (cardVertices == null) {
       return;
     }
-
+    
     gl.glFrontFace(GL_CCW);
 
     gl.glEnable(GL_CULL_FACE);
@@ -289,4 +289,8 @@ public class Card {
     indexBuffer = toShortBuffer(indices);
     textureBuffer = toFloatBuffer(textureCoordinates);
   }
+
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
+	}
 }
