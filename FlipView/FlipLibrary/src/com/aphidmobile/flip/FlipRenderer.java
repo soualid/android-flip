@@ -55,6 +55,7 @@ public class FlipRenderer implements GLSurfaceView.Renderer {
   public FlipRenderer(FlipViewController flipViewController, FlipCards cards) {
     this.flipViewController = flipViewController;
     this.cards = cards;
+    
   }
 
   public void onSurfaceCreated(GL10 gl, EGLConfig config) {

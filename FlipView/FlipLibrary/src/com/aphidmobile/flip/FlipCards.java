@@ -282,13 +282,11 @@ public class FlipCards {
     switch (event.getAction()) {
       case MotionEvent.ACTION_DOWN:
         // remember page we started on...
-      	flipAccepted = event.getX() + 100 > controller.getWidth() || event.getX() - 100 < 0;
+      	flipAccepted = event.getX() + 150 > controller.getWidth() || event.getX() - 150 < 0;
         lastPageIndex = getPageIndexFromAngle(accumulatedAngle);
         lastPosition = orientationVertical ? event.getY() : event.getX();
         return isOnTouchEvent;
       case MotionEvent.ACTION_MOVE:
-      	Log.d("FlipCards", controller.getWidth() + " // " + event.getX());
-      	Log.d("FlipCards", "flipAccepted: " + flipAccepted);
       	if (!flipAccepted) return false;
         float
             delta =
@@ -395,8 +393,6 @@ public class FlipCards {
 
   private void setState(int state) {
     if (this.state != state) {                        /*
-			if (AphidLog.ENABLE_DEBUG)
-				AphidLog.i("setState: from %d, to %d; angle %.1f", this.state, state, angle);
 			*/
       this.state = state;
       animatedFrame = 0;
