@@ -79,6 +79,9 @@ public class ViewDualCards {
 		if (view != null) {
 			viewRef = new WeakReference<View>(view);
 			recycleScreenshot();
+			if (view instanceof IResetViewGraphics) {
+				((IResetViewGraphics)view).resetViewGraphics();
+			}
 			screenshot = GrabIt.takeScreenshot(view, format);
 		} else {
 			recycleScreenshot();
