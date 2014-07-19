@@ -20,7 +20,6 @@ package com.aphidmobile.flip;
 import javax.microedition.khronos.opengles.GL10;
 
 import junit.framework.Assert;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 

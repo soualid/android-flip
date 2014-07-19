@@ -20,6 +20,7 @@ package com.aphidmobile.flip;
 import java.util.LinkedList;
 
 import junit.framework.Assert;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -182,6 +183,7 @@ public class FlipViewController extends AdapterView<Adapter> {
 	}
 
 	public void init(Context context, int orientation, int spinePosition) {
+		setAnimationBitmapFormat(Bitmap.Config.RGB_565);
 		ViewConfiguration configuration = ViewConfiguration.get(getContext());
 		touchSlop = configuration.getScaledTouchSlop();
 		this.flipOrientation = orientation;
@@ -623,11 +625,24 @@ public class FlipViewController extends AdapterView<Adapter> {
 
 	void postHideFlipAnimation() {
 		if (inFlipAnimation) {
-			handler.post(new Runnable() {
+			new Thread() {
+				@Override
 				public void run() {
-					hideFlipAnimation();
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+					}
+					((Activity)FlipViewController.this.getContext()).runOnUiThread(new Runnable() {
+						public void run() {
+							handler.post(new Runnable() {
+								public void run() {
+									hideFlipAnimation();
+								}
+							});
+						}
+					});
 				}
-			});
+			}.start();
 		}
 	}
 
@@ -645,8 +660,8 @@ public class FlipViewController extends AdapterView<Adapter> {
 			handler.post(new Runnable() {
 				public void run() {
 					if (!inFlipAnimation) {
-						cards.setVisible(false);
 						surfaceView.requestRender(); // ask OpenGL to clear its display
+						cards.setVisible(false);
 					}
 				}
 			});
