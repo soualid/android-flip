@@ -18,6 +18,8 @@ package com.aphidmobile.flip;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.View;
 
 import com.aphidmobile.utils.AphidLog;

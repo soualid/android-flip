@@ -31,6 +31,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -110,7 +111,7 @@ public class FlipViewController extends AdapterView<Adapter> {
 	private int bufferIndex = -1;
 	private int adapterIndex = -1;
 	private final int sideBufferSize = 1;
-
+  private boolean blockTouch = false;
 	private float touchSlop;
 
 	private ViewFlipListener onViewFlipListener;
@@ -276,7 +277,7 @@ public class FlipViewController extends AdapterView<Adapter> {
 	// Touch Event
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
-		if (flipByTouchEnabled) {
+		if (flipByTouchEnabled && !blockTouch) {
 			return cards.handleTouchEvent(event, false);
 		} else {
 			return false;
@@ -285,7 +286,7 @@ public class FlipViewController extends AdapterView<Adapter> {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (flipByTouchEnabled) {
+		if (flipByTouchEnabled && !blockTouch) {
 			return cards.handleTouchEvent(event, true);
 		} else {
 			return false;
@@ -624,6 +625,7 @@ public class FlipViewController extends AdapterView<Adapter> {
 	}
 
 	void postHideFlipAnimation() {
+		/*
 		if (inFlipAnimation) {
 			new Thread() {
 				@Override
@@ -636,6 +638,7 @@ public class FlipViewController extends AdapterView<Adapter> {
 						public void run() {
 							handler.post(new Runnable() {
 								public void run() {
+									Log.d("Booklist", "hide flip animation");
 									hideFlipAnimation();
 								}
 							});
@@ -644,10 +647,20 @@ public class FlipViewController extends AdapterView<Adapter> {
 				}
 			}.start();
 		}
+		*/
+		//if (inFlipAnimation) {
+			handler.post(new Runnable() {
+				public void run() {
+					Log.d("Booklist", "hide flip animation");
+					hideFlipAnimation();
+				}
+			});
+		//}
 	}
 
 	private void hideFlipAnimation() {
-		if (inFlipAnimation) {
+		  blockTouch = true;
+		//if (inFlipAnimation) {
 			inFlipAnimation = false;
 
 			updateVisibleView(bufferIndex);
@@ -659,13 +672,28 @@ public class FlipViewController extends AdapterView<Adapter> {
 
 			handler.post(new Runnable() {
 				public void run() {
-					if (!inFlipAnimation) {
-						surfaceView.requestRender(); // ask OpenGL to clear its display
-						cards.setVisible(false);
-					}
+					//if (!inFlipAnimation) {
+
+						new Thread() {
+							public void run() {
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+								}
+			          ((Activity)FlipViewController.this.getContext()).runOnUiThread(new Runnable() {
+			          	public void run() {
+			          		surfaceView.requestRender(); // ask OpenGL to clear its display
+			          		cards.setVisible(false);
+			          		surfaceView.requestRender(); // ask OpenGL to clear its display
+			          	}
+			          });
+			          blockTouch = false;
+							};
+						}.start();
+					//}
 				}
 			});
-		}
+		//}
 	}
 
 	private void onDataChanged() {
