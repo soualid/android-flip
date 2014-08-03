@@ -90,6 +90,10 @@ public class FlipViewController extends AdapterView<Adapter> {
 
 	private volatile boolean inFlipAnimation = false;
 
+	public boolean isInFlipAnimation() {
+		return inFlipAnimation;
+	}
+
 	// AdapterView Related
 	private Adapter adapter;
 
