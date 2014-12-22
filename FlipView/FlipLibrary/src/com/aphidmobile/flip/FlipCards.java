@@ -283,16 +283,20 @@ public class FlipCards {
       case MotionEvent.ACTION_DOWN:
         // remember page we started on...
       	flipAccepted = event.getX() + 150 > controller.getWidth() || event.getX() - 150 < 0;
+        lastPageIndex = getPageIndexFromAngle(accumulatedAngle);
+        lastPosition = orientationVertical ? event.getY() : event.getX();
+        return isOnTouchEvent;
+      case MotionEvent.ACTION_MOVE:
       	if (frontCards.getView() instanceof IResetViewGraphics) {
       		if (((IResetViewGraphics)frontCards.getView()).isReset()) {
       			flipAccepted = true;
       		}
       	}
-        lastPageIndex = getPageIndexFromAngle(accumulatedAngle);
-        lastPosition = orientationVertical ? event.getY() : event.getX();
-        return isOnTouchEvent;
-      case MotionEvent.ACTION_MOVE:
+      	if (event.getPointerCount() > 1) {
+      		flipAccepted = false;
+      	}
       	if (!flipAccepted) return false;
+      	Log.d("EVENT", ""+event.getPointerCount());
         float
             delta =
             orientationVertical ? (lastPosition - event.getY()) : (lastPosition - event.getX());
