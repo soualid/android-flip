@@ -20,6 +20,7 @@ package com.aphidmobile.flip;
 import javax.microedition.khronos.opengles.GL10;
 
 import junit.framework.Assert;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -282,6 +283,11 @@ public class FlipCards {
       case MotionEvent.ACTION_DOWN:
         // remember page we started on...
       	flipAccepted = event.getX() + 150 > controller.getWidth() || event.getX() - 150 < 0;
+      	if (frontCards.getView() instanceof IResetViewGraphics) {
+      		if (((IResetViewGraphics)frontCards.getView()).isReset()) {
+      			flipAccepted = true;
+      		}
+      	}
         lastPageIndex = getPageIndexFromAngle(accumulatedAngle);
         lastPosition = orientationVertical ? event.getY() : event.getX();
         return isOnTouchEvent;

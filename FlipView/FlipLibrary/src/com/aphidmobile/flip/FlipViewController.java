@@ -297,6 +297,10 @@ public class FlipViewController extends AdapterView<Adapter> {
 		}
 	}
 
+	public void setBlockTouch(boolean blockTouch) {
+		this.blockTouch = blockTouch;
+	}
+
 	// --------------------------------------------------------------------------------------------------------------------
 	// Orientation
 	@Override
